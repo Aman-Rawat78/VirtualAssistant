@@ -11,6 +11,9 @@ yarn-error.log*
 # Environment variables
 .env
 
+#Assest
+frontend/assets/
+
 # OS files
 .DS_Store
 Thumbs.db
