@@ -5,18 +5,30 @@ import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
   const [showPassword, setshowPassword] = useState(false)
+   const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
   const navigate = useNavigate()
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Name:", name);
+    console.log("Email:", email);
+    console.log("Password:", password);
+    // Perform form validation and submission logic here
+    // You can access the form data using the state variables (name, email, password)
+  }
   return (
     <div className='w-full h-screen bg-cover flex justify-center items-center' style={{ backgroundImage : `url(${bg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <form className='w-150 h-150 max-w-125 bg-[#0000000e] backdrop-blur shadow-lg shadow-blue-950 flex flex-col justify-center items-center gap-5 rounded-lg p-10'>
            <h1 className='text-white text-[30px] font-semibold mb-10px'>
             Register to <span className='text-blue-500'>Virtual Assistant</span>
            </h1>
-            <input type="text" placeholder='Name' className='w-full p-3 rounded-2xl bg-[#ffffff0e] text-white focus:outline-none focus:ring-2 focus:ring-white-500' />
-            <input type="email" placeholder='Email' className='w-full p-3 rounded-2xl bg-[#ffffff0e] text-white focus:outline-none focus:ring-2 focus:ring-white-500' />
+            <input onChange={(e)=> setName(e.target.value)} type="text" placeholder='Name' className='w-full p-3 rounded-2xl bg-[#ffffff0e] text-white focus:outline-none focus:ring-2 focus:ring-white-500' />
+            <input onChange={(e)=> setEmail(e.target.value)} type="email" placeholder='Email' className='w-full p-3 rounded-2xl bg-[#ffffff0e] text-white focus:outline-none focus:ring-2 focus:ring-white-500' />
            
            <div className=' relative w-full h-60px' border-2 border-white bg-transparent text-white rounded-full text-white text-18px>
-             <input type={showPassword ? "text" : "password"} placeholder='Password' className='w-full p-3 rounded-2xl bg-[#ffffff0e] text-white focus:outline-none focus:ring-2 focus:ring-white-500' />
+             <input onChange={(e)=> setPassword(e.target.value)} type={showPassword ? "text" : "password"} placeholder='Password' className='w-full p-3 rounded-2xl bg-[#ffffff0e] text-white focus:outline-none focus:ring-2 focus:ring-white-500' />
             <LuEye onClick={()=>setshowPassword(!showPassword)} className='absolute right-3 top-4 text-white'/>
            </div>
 
