@@ -1,7 +1,8 @@
-import User from "../models/user.model";
+import User from "../models/user.model.js";
 
 export const getCurrentUser = async (req, res) => {
     try {
+        console.log("Fetching current user data...");
         const userId = req.userId;
         const user = await User.findById(userId).select("-password");
         if (!user) {
