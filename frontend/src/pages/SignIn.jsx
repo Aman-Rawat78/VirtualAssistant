@@ -10,10 +10,12 @@ const SignIn = () => {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
 const { serverUrl } = useContext(userDataContext)
 
   const handleSignIn = async (e) => {
     e.preventDefault();  
+    setLoading(true);
      try {
       if(!email || !password) {
         alert("Please fill all the fields")
@@ -31,6 +33,9 @@ const { serverUrl } = useContext(userDataContext)
       setPassword("")
      } catch (error) {
       console.error("Error occurred while signing in:", error);
+      alert(error.response?.data?.message || "An error occurred while signing in. Please try again.");
+     } finally {
+      setLoading(false);
      }
   }
   return (
@@ -46,8 +51,8 @@ const { serverUrl } = useContext(userDataContext)
             <LuEye onClick={(e)=>setshowPassword(!showPassword)} className='absolute right-3 top-4 text-white'/>
            </div>
 
-            <button type='submit' className='w-full p-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500'>
-              Sign In
+            <button type='submit' className='w-full p-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500' disabled={loading}>
+              {loading ? "Signing In..." : "Sign In"}
             </button>
 
             <p className='text-white'>Already have an account?<span className='text-blue-950 font-bold cursor-pointer' onClick={() => navigate('/signup')}>SignUp</span></p>

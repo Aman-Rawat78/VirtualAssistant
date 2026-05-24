@@ -10,11 +10,13 @@ const SignUp = () => {
    const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const { serverUrl } = useContext(userDataContext)
 
   const handleSignup = async (e) => {
     e.preventDefault();  
+    setLoading(true);
      try {
       if(!name || !email || !password) {
         alert("Please fill all the fields")
@@ -33,6 +35,8 @@ const SignUp = () => {
       setPassword("")
      } catch (error) {
       console.error("Error occurred while signing up:", error);
+     } finally {
+      setLoading(false);
      }
   }
   return (
@@ -49,8 +53,8 @@ const SignUp = () => {
             <LuEye onClick={()=>setshowPassword(!showPassword)} className='absolute right-3 top-4 text-white'/>
            </div>
 
-            <button type='submit' className='w-full p-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500'>
-              Sign Up
+            <button type='submit' className='w-full p-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500' disabled={loading} >
+              {loading ? "Signing Up..." : "Sign Up"}
             </button>
 
             <p className='text-white'>Already have an account?<span className='text-blue-950 font-bold cursor-pointer' onClick={() => navigate('/signin')}>SignIn</span></p>
