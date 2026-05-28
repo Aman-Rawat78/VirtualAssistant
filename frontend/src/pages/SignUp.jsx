@@ -12,7 +12,7 @@ const SignUp = () => {
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-  const { serverUrl } = useContext(userDataContext)
+  const { serverUrl, setUserData ,userData} = useContext(userDataContext)
 
   const handleSignup = async (e) => {
     e.preventDefault();  
@@ -29,10 +29,13 @@ const SignUp = () => {
         password: password.trim(),
    }
       const result = await axios.post(`${serverUrl}/api/auth/signup`, input,{withCredentials : true});
-      console.log(result)
-      console.log(result.data)
-      setEmail("")
+
+      if(result.status === 201) {
+      setUserData(result.data)
+       setEmail("")
       setPassword("")
+      setName("")
+      }
      } catch (error) {
       console.error("Error occurred while signing up:", error);
      } finally {

@@ -11,7 +11,7 @@ const SignIn = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-const { serverUrl } = useContext(userDataContext)
+const { serverUrl ,setUserData ,userData} = useContext(userDataContext)
 
   const handleSignIn = async (e) => {
     e.preventDefault();  
@@ -28,10 +28,13 @@ const { serverUrl } = useContext(userDataContext)
    }
    
       const result = await axios.post(`${serverUrl}/api/auth/signin`, input,{withCredentials : true});
-      console.log(result.data)
+     if(result.status === 200) {
+      setUserData(result.data)
       setEmail("")
       setPassword("")
+      }
      } catch (error) {
+      setUserData(null) // Clear user data on sign-in failure
       console.error("Error occurred while signing in:", error);
       alert(error.response?.data?.message || "An error occurred while signing in. Please try again.");
      } finally {

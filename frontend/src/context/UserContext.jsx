@@ -2,12 +2,14 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import axios from 'axios'
 export const userDataContext = React.createContext()
-const userContext = ({children}) => {
+
+const UserContext = ({children}) => {
     const serverUrl = "http://localhost:3000"
     const [userData, setUserData] = useState(null)
 
-    const handleCurrentUserData = async (data) => {
+    const handleCurrentUserData = async () => {
         try {
+          console.log(new Date().toLocaleTimeString()); //print minutes with seconds
           const result = await axios.get(`${serverUrl}/api/user/current`, {withCredentials: true});
 
           setUserData(result.data);
@@ -23,6 +25,7 @@ const userContext = ({children}) => {
     const value = {
         serverUrl,
         userData,
+        setUserData,
         handleCurrentUserData
     }
   return (
@@ -34,4 +37,4 @@ const userContext = ({children}) => {
   )
 }
 
-export default userContext
+export default UserContext
