@@ -6,10 +6,12 @@ export const userDataContext = React.createContext()
 const UserContext = ({children}) => {
     const serverUrl = "http://localhost:3000"
     const [userData, setUserData] = useState(null)
+      const [frontendImage, setFrontendImage] = useState(null);
+      const [backendImage, setBackendImage] = useState(null);
+      const [selectedImage, setSelectedImage] = useState(null);
 
     const handleCurrentUserData = async () => {
         try {
-          console.log(new Date().toLocaleTimeString()); //print minutes with seconds
           const result = await axios.get(`${serverUrl}/api/user/current`, {withCredentials: true});
 
           setUserData(result.data);
@@ -26,7 +28,10 @@ const UserContext = ({children}) => {
         serverUrl,
         userData,
         setUserData,
-        handleCurrentUserData
+        handleCurrentUserData,
+        frontendImage, setFrontendImage,
+        backendImage, setBackendImage,
+        selectedImage, setSelectedImage
     }
   return (
     <div>
