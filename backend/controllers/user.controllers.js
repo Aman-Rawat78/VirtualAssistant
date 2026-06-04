@@ -18,23 +18,19 @@ export const getCurrentUser = async (req, res) => {
     try{
         const userId = req.userId;
         const{ AssistantName ,ImgUrl}= req.body;
-       
-        let assistantImage;
+        let AssistantImage;
 
         if(req.file){
-            assistantImage = await uploadOnCloudinary(req.file.path);
+            AssistantImage = await uploadOnCloudinary(req.file.path);
         }else{
-            assistantImage = ImgUrl;
+            AssistantImage = ImgUrl;
         }
 
-        const user = await User.findById(userId);
+        const user = await User.findByIdAndUpdate(userId, { assistantName: AssistantName, assistantImage: AssistantImage },{ returnDocument: 'after' }).select("-password");
         if(!user){
             return res.status(404).json({message: "User not found"});
         }
-        user.assistantName = AssistantName || user.assistantName;
-        user.assistantImage = assistantImage || user.assistantImage;
-        await user.save();
-        res.status(200).json({message: "Assistant data updated successfully"});
+        res.status(200).json(user);
 
     }catch(error){
         res.status(500).json({ message: `Error updating assistant data: ${error.message}` });

@@ -13,14 +13,14 @@ const Customize = () => {
   const { serverUrl, userData, setUserData, handleCurrentUserData, frontendImage, setFrontendImage, backendImage, setBackendImage, selectedImage, setSelectedImage } = useContext(userDataContext);
   const inputRef = useRef(null);
   const navigate = useNavigate();
+
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setFrontendImage(URL.createObjectURL(file));
     setBackendImage(file);
-    console.log(backendImage);
-    console.log(frontendImage);
-
   }
+
+
   return (
     <div className="w-full min-h-screen bg-linear-to-br from-black to-blue-500 flex items-center justify-start flex-col gap-10 py-10">
       <h1 className="text-3xl font-bold text-white">Select your Assistant Image</h1>
@@ -45,8 +45,6 @@ const Customize = () => {
           {
             frontendImage ? <img src={frontendImage} alt="Selected" className='h-full object-cover' /> : <RiImageAddLine className="text-white mx-auto my-auto" size={40} />
           }
-
-
         </div>
         <input type="file" accept="image/*" hidden onChange={handleImageChange} ref={inputRef} />
       </div>
