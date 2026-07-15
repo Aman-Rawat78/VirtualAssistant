@@ -1,3 +1,4 @@
+import uploadOnCloudinary from "../config/cloudinary.js";
 import User from "../models/user.model.js";
 
 export const getCurrentUser = async (req, res) => {

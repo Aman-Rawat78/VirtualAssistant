@@ -8,6 +8,8 @@ import img4 from '../assets/img4.png'
 import img5 from '../assets/img5.png'
 import { userDataContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
+import { MdOutlineKeyboardBackspace } from "react-icons/md";
+
 
 const Customize = () => {
   const { serverUrl, userData, setUserData, handleCurrentUserData, frontendImage, setFrontendImage, backendImage, setBackendImage, selectedImage, setSelectedImage } = useContext(userDataContext);
@@ -23,6 +25,8 @@ const Customize = () => {
 
   return (
     <div className="w-full min-h-screen bg-linear-to-br from-black to-blue-500 flex items-center justify-start flex-col gap-10 py-10">
+                 <MdOutlineKeyboardBackspace onClick={() => navigate("/" )} className='absolute top-6 left-15 text-white text-2xl cursor-pointer' />
+     
       <h1 className="text-3xl font-bold text-white">Select your Assistant Image</h1>
     
       {
@@ -43,7 +47,7 @@ const Customize = () => {
         <div onClick={() => { inputRef.current?.click(); setSelectedImage("input") }}
           className={`${selectedImage === "input" ? 'border-white' : ''} w-50 h-75 flex justify-center items-center bg-[#37376435] border-2 border-[#0000ff0e] rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-blue-500 transition-shadow duration-300`}>
           {
-            frontendImage ? <img src={frontendImage} alt="Selected" className='h-full object-cover' /> : <RiImageAddLine className="text-white mx-auto my-auto" size={40} />
+            frontendImage ? <img src={frontendImage} alt="Selected" className='w-full h-full object-cover' /> : <RiImageAddLine className="text-white mx-auto my-auto" size={40} />
           }
         </div>
         <input type="file" accept="image/*" hidden onChange={handleImageChange} ref={inputRef} />

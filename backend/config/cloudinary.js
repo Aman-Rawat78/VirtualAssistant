@@ -12,13 +12,13 @@ cloudinary.config({
 });
 try{
   const uploadResult = await cloudinary.uploader.upload(filepath, {
-    folder: 'your_folder_name', // Optional: specify a folder in Cloudinary
+    folder: 'VirtualAssistant', // Optional: specify a folder in Cloudinary
   });
   fs.unlinkSync(filepath); // Delete the local file after uploading
   return uploadResult.secure_url; // Return the URL of the uploaded image
 }catch(error){
   fs.unlinkSync(filepath); // Ensure the local file is deleted even if there's an error
-   return res.status(500).json({ message: 'Failed to upload image to Cloudinary' });
+  throw new Error('Failed to upload image to Cloudinary');
 }
 }
 export default uploadOnCloudinary;
