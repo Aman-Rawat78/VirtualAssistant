@@ -14,11 +14,12 @@ const UserProvider = ({ children }) => {
     setAuthLoading(true)
     try {
       const result = await axios.get(`${serverUrl}/api/user/current`, { withCredentials: true })
-
       setUserData(result.data)
+      return result.data
     } catch (error) {
       setUserData(null)
       console.error('Error fetching user data:', error)
+      return null
     } finally {
       setAuthLoading(false)
     }
@@ -27,7 +28,7 @@ const UserProvider = ({ children }) => {
   useEffect(() => {
     handleCurrentUserData()
   }, [])
-
+  console.log("userDataContext:", userData)
   const value = {
     serverUrl,
     userData,

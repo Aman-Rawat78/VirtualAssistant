@@ -11,7 +11,7 @@ const SignIn = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const { serverUrl, setUserData, userData } = useContext(userDataContext)
+  const { serverUrl, setUserData, handleCurrentUserData } = useContext(userDataContext)
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -30,10 +30,14 @@ const SignIn = () => {
 
       const result = await axios.post(`${serverUrl}/api/auth/signin`, input, { withCredentials: true });
       if (result.status === 200) {
-        setUserData(result.data)
+        const currentUser = await handleCurrentUserData()
         setEmail("")
         setPassword("")
-        navigate('/'); // Navigate to home page after successful sign-in
+        if (currentUser?.assistantImage && currentUser?.assistantName) {
+          navigate('/')
+        } else {
+          navigate('/customize')
+        }
       }
       } catch (error) {
         setUserData(null) // Clear user data on sign-in failure

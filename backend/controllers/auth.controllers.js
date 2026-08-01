@@ -51,6 +51,7 @@ export const signIn = async (req,res)=>{
             sameSite: "strict", // Set to "none" if using cross-site cookies in production
             secure:false, // Set to true in production with HTTPS
         });
+        console.log("User signed in successfully:", user);
         res.status(200).json({ message: "Signed in successfully" });
     } catch (error) {
         res.status(500).json({ message: `Error signing in: ${error.message}` });
