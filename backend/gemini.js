@@ -6,6 +6,7 @@ import { GoogleGenAI } from "@google/genai";
 const AskAssistant = async (command,assistantName,userName) => {
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
   try {
+    //This is the prompt that will be sent to Gemini API. It includes the assistant's name, user's name, and the user's command with context.
   const prompt = `You are a voice-enabled virtual assistant named ${assistantName}, created by ${userName}. 
 You are not Google; you are an independent personal AI assistant.
 
@@ -48,6 +49,7 @@ now your userInput - ${command}
       model: process.env.GEMINI_MODEL,
       input: prompt,
     });
+
     console.log(result.output_text);
     return result.output_text;
   } catch (error) {

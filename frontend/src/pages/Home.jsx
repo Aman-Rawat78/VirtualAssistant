@@ -1,10 +1,10 @@
-import React, { useContext } from 'react'
-import { userDataContext } from '../context/UserContext';
+import React, { useContext, useEffect } from 'react'
+import { userDataContext } from "../context/UserContext.jsx"
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Home = () => {
-  const {userData,serverUrl,setUserData} = useContext(userDataContext);
+  const {userData,serverUrl,setUserData,getGeminiResponse} = useContext(userDataContext);
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -21,6 +21,34 @@ const Home = () => {
       console.log(error.response?.data?.message || error.message);
     }
   };
+
+
+  useEffect(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert('Speech Recognition is not supported in this browser. Please use Chrome or Edge.');
+      return;
+    }
+    const recognition = new SpeechRecognition();
+    recognition.continuous = true; // Keep listening until stopped
+    recognition.lang = 'en-US'; 
+
+    recognition.onresult = async(event) => {
+      console.log(event.results[event.results.length - 1][0].transcript)
+    const transcript = event.results[event.results.length - 1][0].transcript;
+    if(transcript.toLowerCase().includes(userData?.assistantName.toLowerCase())){ 
+       // Do something when the assistant's name is recognized
+     const data = await getGeminiResponse(transcript)
+      console.log("Gemini Response:", data);
+     };
+    }
+
+     
+
+    recognition.start();
+
+    
+  }, []);
 
   return (
      <div className="w-full min-h-screen bg-linear-to-br from-black to-blue-500 flex items-center justify-start flex-col gap-10 py-10">

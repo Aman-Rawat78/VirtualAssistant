@@ -1,6 +1,7 @@
 import uploadOnCloudinary from "../config/cloudinary.js";
 import User from "../models/user.model.js";
 import moment from "moment/moment.js";
+import AskAssistant from "../gemini.js";
 
 export const getCurrentUser = async (req, res) => {
     try {
@@ -41,7 +42,7 @@ export const getCurrentUser = async (req, res) => {
 
 
  
- export const AskAssistant = async (req, res) => {
+ export const AskToAssistant = async (req, res) => {
     try {
         const user  = await User.findById(req.userId);
         if (!user) {
@@ -49,9 +50,9 @@ export const getCurrentUser = async (req, res) => {
         }
         const userName = user.name;
         const assistantName = user.assistantName;
-        const command = req.body;
+        const {command} = req.body;
+        
         const response = await AskAssistant(command, assistantName, userName);
-
         const jsonMatch = response.match(/\{[\s\S]*\}/);
         if (!jsonMatch) {
             return res.status(400).json({ response: "Sorry, I couldn't understand that." });
@@ -88,6 +89,16 @@ export const getCurrentUser = async (req, res) => {
         }
     
     }catch (error) {
+         // Catch 429 Rate Limit
+    if (error.status === 429 || error.statusCode === 429) {
+      console.warn('Gemini 429: Free tier quota reached.');
+      return res.status(200).json({
+        type: 'general',
+        userInput: req.body.command || '',
+        response: 'I am receiving too many requests right now. Please give me about thirty seconds to cool down.',
+      });
+    }
+        console.error("Error occurred while asking assistant:", error);
         res.status(500).json({ response: `Error asking assistant: ${error.message}` });
     }
  }

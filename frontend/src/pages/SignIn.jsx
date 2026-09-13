@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import bg from "../assets/robot1.png"
 import { LuEye } from "react-icons/lu";
 import { useNavigate } from 'react-router-dom';
-import { userDataContext } from '../context/UserContext';
+import { userDataContext } from '../context/UserContext.jsx';
 import axios from 'axios';
 
 const SignIn = () => {
