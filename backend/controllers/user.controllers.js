@@ -61,7 +61,7 @@ export const getCurrentUser = async (req, res) => {
         const geminiResponse = JSON.parse(jsonMatch[0]);
         const type = geminiResponse.type;
 
-        switch (type) {
+        switch (type) { 
             case "get_date":
                 return res.status(200).json({ type, userInput: geminiResponse.userInput, response: `Today is ${moment().format("MMMM Do YYYY")}` });
                 break;

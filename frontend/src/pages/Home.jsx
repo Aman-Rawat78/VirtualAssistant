@@ -22,6 +22,10 @@ const Home = () => {
     }
   };
 
+  const speak = (text)=>{
+   const utterence = new SpeechSynthesisUtterance(text);
+   window.speechSynthesis.speak(utterence);
+  }
 
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -34,12 +38,14 @@ const Home = () => {
     recognition.lang = 'en-US'; 
 
     recognition.onresult = async(event) => {
-      console.log(event.results[event.results.length - 1][0].transcript)
+    
     const transcript = event.results[event.results.length - 1][0].transcript;
+    console.log(transcript);
     if(transcript.toLowerCase().includes(userData?.assistantName.toLowerCase())){ 
        // Do something when the assistant's name is recognized
      const data = await getGeminiResponse(transcript)
       console.log("Gemini Response:", data);
+      speak(data.response);
      };
     }
 
