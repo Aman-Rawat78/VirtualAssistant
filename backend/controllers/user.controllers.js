@@ -55,6 +55,7 @@ export const getCurrentUser = async (req, res) => {
         const response = await AskAssistant(command, assistantName, userName);
         const jsonMatch = response.match(/\{[\s\S]*\}/);
         if (!jsonMatch) {
+            console.error("Gemini returned non-JSON output:", response);
             return res.status(400).json({ response: "Sorry, I couldn't understand that." });
         }
 
